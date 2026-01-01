@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user") // IMPORTANT for MySQL
+@Table(name = "users")
 public class User {
 
     @Id
