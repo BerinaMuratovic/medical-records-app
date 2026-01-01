@@ -1,6 +1,5 @@
 package com.berina.MedicalRecordsApp.service;
 
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,4 @@ public class ChatService {
             return "AI service unavailable.";
         }
     }
-=======
-public class ChatService {
->>>>>>> 6dce83c (update)
 }
