@@ -1,0 +1,80 @@
+import React, { useEffect, useState } from "react";
+import PatientHeader from "../../components/PatientHeader";
+import PatientSidebar from "../../components/PatientSidebar";
+import "../../style.css";
+
+export default function BloodworkPage() {
+  const [user, setUser] = useState(null);
+  const [bloodwork, setBloodwork] = useState([]);
+
+  useEffect(() => {
+    const u = JSON.parse(localStorage.getItem("user"));
+    setUser(u);
+
+    fetch(`http://localhost:8080/api/bloodworks/user/${u.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        
+        const clean = data.filter((b) => b.user !== null);
+        setBloodwork(clean);
+      })
+      .catch((err) => console.error("Failed to load bloodwork:", err));
+  }, []);
+
+  return (
+    <div className="patient-layout">
+
+      {/* SIDEBAR */}
+      <PatientSidebar />
+
+      <div className="content-area">
+
+        {/* HEADER */}
+        <PatientHeader user={user} />
+
+        <main className="patient-content bloodwork-page">
+          <h2 className="bloodwork-title">Bloodwork History</h2>
+
+          {bloodwork.length === 0 && (
+            <p style={{ marginTop: "20px", color: "#777" }}>
+              No bloodwork records found.
+            </p>
+          )}
+
+          {bloodwork.map((b) => (
+            <div key={b.id} className="bloodwork-entry">
+
+              {/* Date */}
+              <strong className="bloodwork-date">Test Date: {b.testDate}</strong>
+
+              <div className="bloodwork-group">
+
+                <div className="blood-item">
+                  <label>Iron: {b.ironLevel}</label>
+                  <input type="range" value={b.ironLevel} min="20" max="200" readOnly />
+                </div>
+
+                <div className="blood-item">
+                  <label>Glucose: {b.glucoseLevel}</label>
+                  <input type="range" value={b.glucoseLevel} min="50" max="250" readOnly />
+                </div>
+
+                <div className="blood-item">
+                  <label>Cholesterol: {b.cholesterolLevel}</label>
+                  <input type="range" value={b.cholesterolLevel} min="100" max="350" readOnly />
+                </div>
+
+                <div className="blood-item">
+                  <label>Hemoglobin: {b.hemoglobinLevel}</label>
+                  <input type="range" value={b.hemoglobinLevel} min="5" max="20" readOnly />
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </main>
+
+      </div>
+    </div>
+  );
+}
