@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -18,19 +19,18 @@ public class UserController {
         this.userService = userService;
     }
 
+    /* ================= TEST ================= */
+
     @GetMapping("/test")
     public String testConnection() {
         return "Backend is connected!";
     }
 
+    /* ================= GET ================= */
+
     @GetMapping
     public List<User> getAll() {
         return userService.getAllUsers();
-    }
-
-    @GetMapping("/role/{role}")
-    public List<User> getUsersByRole(@PathVariable Role role) {
-        return userService.getUsersByRole(role);
     }
 
     @GetMapping("/{id}")
@@ -39,6 +39,14 @@ public class UserController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable Role role) {
+        return userService.getUsersByRole(role);
+    }
+
+    /* ================= AUTH ================= */
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
@@ -59,6 +67,8 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    /* ================= UPDATE ================= */
+
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(
             @PathVariable Long id,
@@ -69,16 +79,11 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /* ================= DELETE ================= */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/role/{role}")
-    public List<User> getUsersByRole(@PathVariable String role) {
-        Role parsedRole = Role.valueOf(role.toUpperCase());
-        return userService.getUsersByRole(parsedRole);
-    }
-
 }
-
