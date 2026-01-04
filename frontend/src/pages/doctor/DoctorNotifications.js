@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DoctorSidebar from "../../components/DoctorSidebar";
 import PatientHeader from "../../components/PatientHeader";
-import api from "../../api";
+import api from "../../services/api";
 
 export default function DoctorNotifications() {
   const [doctor, setDoctor] = useState(null);

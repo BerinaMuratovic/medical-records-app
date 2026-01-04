@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PatientHeader from "../../components/PatientHeader";
-import api from "../../api";
+import api from "../../services/api";
 
 export default function NotificationsPage() {
   const [user, setUser] = useState(null);

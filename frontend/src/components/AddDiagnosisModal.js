@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../api";
+import api from "../services/api";
 import "../style.css";
 
 export default function AddDiagnosisModal({

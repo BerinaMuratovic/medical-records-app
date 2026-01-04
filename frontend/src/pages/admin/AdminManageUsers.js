@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 import PatientHeader from "../../components/PatientHeader";
-import api from "../../api";
+import api from "../../services/api";
 import "../../style.css";
 
 export default function AdminManageUsers() {

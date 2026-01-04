@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PatientSidebar from "../../components/PatientSidebar";
 import PatientHeader from "../../components/PatientHeader";
-import api from "../../api";
+import api from "../../services/api";
 import "../../style.css";
 
 export default function PatientHome() {

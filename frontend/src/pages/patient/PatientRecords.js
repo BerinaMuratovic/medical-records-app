@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PatientHeader from "../../components/PatientHeader";
 import PatientSidebar from "../../components/PatientSidebar";
-import api from "../../api";
+import api from "../../services/api";
 import "../../style.css";
 
 export default function PatientRecords() {

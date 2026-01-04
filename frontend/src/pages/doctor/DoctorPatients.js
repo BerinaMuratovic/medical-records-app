@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DoctorSidebar from "../../components/DoctorSidebar";
 import PatientHeader from "../../components/PatientHeader";
-import api from "../../api";
+import api from "../../services/api";
 import "../../style.css";
 
 export default function DoctorPatients() {

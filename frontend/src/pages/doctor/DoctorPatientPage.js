@@ -7,7 +7,7 @@ import AddBloodworkModal from "../../components/AddBloodworkModal";
 import AddDiagnosisModal from "../../components/AddDiagnosisModal";
 import AddPrescriptionModal from "../../components/AddPrescriptionModal";
 
-import api from "../../api";
+import api from "../../services/api";
 import "../../style.css";
 
 export default function DoctorPatientPage() {
