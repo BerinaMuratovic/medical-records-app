@@ -1931,6 +1931,75 @@ html, body {
   cursor: not-allowed;
 }
 
+/* ===== DOCTOR APPOINTMENTS ===== */
+
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.appointment-card {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1fr;
+  align-items: center;
+  padding: 18px 22px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.appointment-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+}
+
+/* LEFT */
+.appointment-date {
+  font-weight: 600;
+}
+
+.appointment-time {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* MIDDLE */
+.appointment-patient {
+  font-size: 16px;
+}
+
+/* RIGHT */
+.appointment-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* STATUS BADGES */
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 
 .patient-footer {
   text-align: center;
