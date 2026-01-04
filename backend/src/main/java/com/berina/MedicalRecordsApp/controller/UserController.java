@@ -74,5 +74,11 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable String role) {
+        Role parsedRole = Role.valueOf(role.toUpperCase());
+        return userService.getUsersByRole(parsedRole);
+    }
+
 }
 
