@@ -7,6 +7,7 @@ import "../../style.css";
 export default function PatientProfile() {
   const [user, setUser] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
+
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState("");
@@ -22,39 +23,97 @@ export default function PatientProfile() {
     try {
       const res = await api.put(`/users/${user.id}`, {
         name,
-        password: password || undefined,
+        password: password.trim() === "" ? undefined : password,
         profilePic
       });
 
       localStorage.setItem("user", JSON.stringify(res.data));
       setUser(res.data);
       setEditOpen(false);
-      alert("Profile updated!");
     } catch {
-      alert("Error updating profile");
+      alert("❌ Error updating profile");
     }
+  };
+
+  const getProfileImage = (pic) => {
+    if (!pic || pic.trim() === "") {
+      return "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+    }
+    return pic;
   };
 
   return (
     <div className="patient-layout">
       <PatientSidebar />
+
       <div className="content-area">
         <PatientHeader user={user} />
-        <main className="patient-content">
-          <h2>Your Profile</h2>
-          <p><b>Name:</b> {user?.name}</p>
-          <p><b>Email:</b> {user?.email}</p>
 
-          <button onClick={() => setEditOpen(true)}>Edit Profile</button>
+        <main className="patient-content">
+          <h2 className="profile-title">👤 Your Profile</h2>
+
+          <div className="profile-card">
+            <img
+              src={getProfileImage(user?.profilePic)}
+              alt="profile"
+              className="big-profile-pic"
+            />
+
+            <p><strong>Name:</strong> {user?.name}</p>
+            <p><strong>Email:</strong> {user?.email}</p>
+            <p><strong>Role:</strong> {user?.role}</p>
+
+            <button
+              className="edit-profile-btn"
+              onClick={() => setEditOpen(true)}
+            >
+              ✏️ Edit Profile
+            </button>
+          </div>
         </main>
       </div>
 
+      {/* ================= EDIT MODAL ================= */}
       {editOpen && (
         <div className="edit-modal">
-          <input value={name} onChange={e => setName(e.target.value)} />
-          <input type="password" onChange={e => setPassword(e.target.value)} />
-          <input value={profilePic} onChange={e => setProfilePic(e.target.value)} />
-          <button onClick={handleUpdate}>Save</button>
+          <div className="edit-modal-content">
+            <h3>Edit Profile</h3>
+
+            <label>Name</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <label>New Password</label>
+            <input
+              type="password"
+              placeholder="Leave empty to keep current password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <label>Profile Picture URL</label>
+            <input
+              value={profilePic}
+              onChange={(e) => setProfilePic(e.target.value)}
+            />
+
+            <div className="edit-btn-row">
+              <button
+                className="cancel-btn"
+                onClick={() => setEditOpen(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="save-btn"
+                onClick={handleUpdate}
+              >
+                Save
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

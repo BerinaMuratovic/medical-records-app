@@ -8,13 +8,14 @@ export default function PatientHome() {
   const [user, setUser] = useState(null);
   const [nextAppointment, setNextAppointment] = useState(null);
   const [recentDiagnosis, setRecentDiagnosis] = useState(null);
-  const [, setRecentBloodwork] = useState(null); // ✅ FIX
+  const [, setRecentBloodwork] = useState(null); 
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("user"));
-    setUser(u);
     if (!u?.id) return;
+
+    setUser(u);
 
     api.get(`/appointments/patient/${u.id}`).then(res => {
       if (res.data.length) {
@@ -47,6 +48,8 @@ export default function PatientHome() {
     });
   }, []);
 
+  if (!user) return null;
+
   return (
     <div className="patient-layout">
       <PatientSidebar />
@@ -55,11 +58,63 @@ export default function PatientHome() {
         <PatientHeader user={user} unreadCount={unreadCount} />
 
         <main className="dashboard-main">
-          <h2>Welcome, {user?.name}</h2>
-          <p>Next appointment: {nextAppointment?.date || "None"}</p>
-          <p>Recent diagnosis: {recentDiagnosis?.title || "None"}</p>
-          <p>Unread notifications: {unreadCount}</p>
+          <h2 className="dashboard-title">
+            Welcome, {user.name} 👋
+          </h2>
+          <p className="dashboard-subtitle">
+            Here is your health summary:
+          </p>
+
+          <div className="summary-grid">
+
+            {/* NEXT APPOINTMENT */}
+            <div className="summary-card">
+              <div className="card-icon">📅</div>
+              <h3>Next Appointment</h3>
+              {nextAppointment ? (
+                <p>
+                  {new Date(nextAppointment.date).toLocaleString()} <br />
+                  With Dr. {nextAppointment.doctor?.name}
+                </p>
+              ) : (
+                <p>No upcoming appointment</p>
+              )}
+            </div>
+
+            {/* RECENT DIAGNOSIS */}
+            <div className="summary-card">
+              <div className="card-icon">🩺</div>
+              <h3>Recent Diagnosis</h3>
+              {recentDiagnosis ? (
+                <p>
+                  {recentDiagnosis.title} <br />
+                  By Dr. {recentDiagnosis.doctor?.name}
+                </p>
+              ) : (
+                <p>No recent diagnoses</p>
+              )}
+            </div>
+
+            {/* BLOODWORK */}
+            <div className="summary-card">
+              <div className="card-icon">🧪</div>
+              <h3>Bloodwork Status</h3>
+              <p>View latest test results</p>
+            </div>
+
+            {/* NOTIFICATIONS */}
+            <div className="summary-card">
+              <div className="card-icon">🔔</div>
+              <h3>Notifications</h3>
+              <p>{unreadCount} unread</p>
+            </div>
+
+          </div>
         </main>
+
+        <footer className="patient-footer">
+          © 2025 Medical Records App
+        </footer>
       </div>
     </div>
   );
