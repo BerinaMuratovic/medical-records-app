@@ -1,5 +1,6 @@
 package com.berina.MedicalRecordsApp.controller;
 
+import com.berina.MedicalRecordsApp.model.Role;
 import com.berina.MedicalRecordsApp.model.User;
 import com.berina.MedicalRecordsApp.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -74,4 +75,9 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable Role role) {
+        return userService.getUsersByRole(role);
+    }
+
 }

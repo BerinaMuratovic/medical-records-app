@@ -114,6 +114,11 @@ public class UserService {
         }
     }
 
+    public List<User> getUsersByRole(Role role) {
+        return userRepository.findByRole(role);
+    }
+
+
     /* ================= ADMIN NOTIFICATIONS ================= */
 
     private void notifyAdmins(String message) {
