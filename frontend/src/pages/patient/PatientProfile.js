@@ -67,7 +67,7 @@ export default function PatientProfile() {
               className="edit-profile-btn"
               onClick={() => setEditOpen(true)}
             >
-              ✏️ Edit Profile
+              Edit Profile
             </button>
           </div>
         </main>

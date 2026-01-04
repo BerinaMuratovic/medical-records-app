@@ -50,22 +50,33 @@ export default function AdminManageUsers() {
   return (
     <div className="patient-layout">
       <AdminSidebar />
+
       <div className="content-area">
         <PatientHeader user={admin} />
 
         <main className="patient-content">
-          <h2 className="page-title">Manage Users</h2>
+          <h2 className="page-title">👥 Manage Users</h2>
 
           {successMsg && <div className="message-box success">{successMsg}</div>}
           {errorMsg && <div className="message-box error">{errorMsg}</div>}
 
-          <div className="record-card">
+          <div className="record-card admin-users-table">
+            {/* HEADER */}
+            <div className="admin-users-header">
+              <span>Name</span>
+              <span>Email</span>
+              <span>Role</span>
+              <span>Action</span>
+            </div>
+
+            {/* ROWS */}
             {users.map(u => (
-              <div key={u.id} className="record-item admin-user-item">
+              <div key={u.id} className="admin-user-row">
                 <strong>{u.name}</strong>
-                <span>{u.email}</span>
+                <span className="user-email">{u.email}</span>
 
                 <select
+                  className="role-select"
                   value={u.role}
                   onChange={(e) => changeRole(u.id, e.target.value)}
                 >
@@ -87,12 +98,24 @@ export default function AdminManageUsers() {
         </main>
       </div>
 
+      {/* DELETE MODAL */}
       {deleteTarget && (
         <div className="modal-overlay">
           <div className="modal-card">
-            <p>Delete {deleteTarget.name}?</p>
-            <button onClick={handleDelete}>Delete</button>
-            <button onClick={() => setDeleteTarget(null)}>Cancel</button>
+            <h3>Delete User</h3>
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{deleteTarget.name}</strong>?
+            </p>
+
+            <div className="modal-btn-row">
+              <button className="cancel-btn" onClick={() => setDeleteTarget(null)}>
+                Cancel
+              </button>
+              <button className="danger-btn" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

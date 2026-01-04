@@ -34,7 +34,7 @@ export default function BloodworkPage() {
         <main className="patient-content bloodwork-page">
           <h2 className="bloodwork-title">🩸 Bloodwork History</h2>
           <p className="dashboard-subtitle">
-            Review your past laboratory test results
+            
           </p>
 
           {bloodwork.length === 0 && (

@@ -727,6 +727,26 @@ html, body {
 .edit-profile-btn:hover {
   background: #616ca1;
 }
+/* Diagnosis card hover effect */
+.record-item.clickable {
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.record-item.clickable:hover {
+  background-color: #f3f4f6; 
+  transform: translateY(-1px);
+}
+
+/* Darken diagnosis title */
+.record-item.clickable .record-name {
+  color: #111827; 
+  font-weight: 600;
+}
+
+
+.record-item.clickable:hover .record-name {
+  color: #000;
+}
 
 /* MODAL */
 .edit-modal {
@@ -1785,6 +1805,131 @@ html, body {
   font-size: 14px;
 }
 
+/* DASHBOARD SUBTITLE */
+.dashboard-subtitle {
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+/* CARD ICON */
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+/* SUMMARY CARD HOVER */
+.summary-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+}
+
+/* HIGHLIGHT STATS */
+.summary-card.highlight {
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+
+/* USER GROWTH COLORS */
+.growth-up {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.growth-down {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* ADMIN USER ROW */
+.admin-user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ROLE BADGES */
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-badge.admin {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.role-badge.doctor {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.role-badge.patient {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ===== ADMIN USERS TABLE ===== */
+
+.admin-users-table {
+  padding: 0;
+}
+
+/* HEADER */
+.admin-users-header {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1.2fr 1fr;
+  padding: 14px 20px;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+/* ROW */
+.admin-user-row {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1.2fr 1fr;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  
+}
+
+.admin-user-row:hover {
+  background: #f9fafb;
+}
+
+/* EMAIL */
+.user-email {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* ROLE SELECT */
+.role-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* DELETE BUTTON */
+.danger-btn {
+  justify-self: flex-end;
+}
+
+/* DISABLED DELETE */
+.danger-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 
 
 .patient-footer {

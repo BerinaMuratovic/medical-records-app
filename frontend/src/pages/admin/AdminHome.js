@@ -24,10 +24,8 @@ export default function AdminHome() {
   }, []);
 
   useEffect(() => {
-    api
-      .get(`/admin/stats?days=${range}`)
-      .then(res => setStats(res.data))
-      .catch(() => console.error("Failed to load stats"));
+    api.get(`/admin/stats?days=${range}`)
+      .then(res => setStats(res.data));
   }, [range]);
 
   const doctors = users.filter(u => u.role === "DOCTOR").length;
@@ -41,17 +39,42 @@ export default function AdminHome() {
         <PatientHeader user={admin} />
 
         <main className="patient-content">
-          <h2 className="dashboard-title">Admin Dashboard</h2>
+          <h2 className="dashboard-title">🛠 Admin Dashboard</h2>
+          <p className="dashboard-subtitle">
+            System overview and platform insights
+          </p>
 
+          {/* SUMMARY */}
           <div className="summary-grid">
-            <div className="summary-card"><h3>Total Users</h3><p>{users.length}</p></div>
-            <div className="summary-card"><h3>Doctors</h3><p>{doctors}</p></div>
-            <div className="summary-card"><h3>Patients</h3><p>{patients}</p></div>
-            <div className="summary-card"><h3>Total Appointments</h3><p>{appointments.length}</p></div>
+            <div className="summary-card">
+              <div className="card-icon">👥</div>
+              <h3>Total Users</h3>
+              <p>{users.length}</p>
+            </div>
+
+            <div className="summary-card">
+              <div className="card-icon">🩺</div>
+              <h3>Doctors</h3>
+              <p>{doctors}</p>
+            </div>
+
+            <div className="summary-card">
+              <div className="card-icon">🧑‍🤝‍🧑</div>
+              <h3>Patients</h3>
+              <p>{patients}</p>
+            </div>
+
+            <div className="summary-card">
+              <div className="card-icon">📅</div>
+              <h3>Appointments</h3>
+              <p>{appointments.length}</p>
+            </div>
           </div>
 
+          {/* FILTER */}
           <div className="stats-header">
-            <h3>Platform Statistics</h3>
+            <h3>📊 Platform Statistics</h3>
+
             <select
               value={range}
               onChange={(e) => setRange(Number(e.target.value))}
@@ -63,15 +86,18 @@ export default function AdminHome() {
             </select>
           </div>
 
+          {/* STATS */}
           <div className="summary-grid">
             <div className="summary-card highlight">
               <h4>New Users</h4>
               <p>{stats.newUsers}</p>
             </div>
+
             <div className="summary-card highlight">
               <h4>Appointments</h4>
               <p>{stats.appointments}</p>
             </div>
+
             <div className="summary-card highlight">
               <h4>User Growth</h4>
               <p className={stats.userGrowth >= 0 ? "growth-up" : "growth-down"}>
@@ -80,13 +106,21 @@ export default function AdminHome() {
             </div>
           </div>
 
-          <h3 style={{ marginTop: "40px" }}>Recent Users</h3>
+          {/* RECENT USERS */}
+          <h3 style={{ marginTop: "40px" }}>🕒 Recent Users</h3>
+
           <div className="record-card">
             {users.slice(0, 5).map(u => (
-              <div key={u.id} className="record-item">
-                <strong>{u.name}</strong>
-                <span>{u.email}</span>
-                <span>{u.role}</span>
+              <div key={u.id} className="record-item admin-user-row">
+                <div className="record-left">
+                  <strong>{u.name}</strong>
+                  <span>{u.email}</span>
+                </div>
+                <div className="record-right">
+                  <span className={`role-badge ${u.role.toLowerCase()}`}>
+                    {u.role}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
