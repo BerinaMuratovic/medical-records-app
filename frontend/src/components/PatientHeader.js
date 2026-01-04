@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 import "../style.css";
 
 export default function PatientHeader({ user }) {
@@ -27,16 +28,16 @@ export default function PatientHeader({ user }) {
   const logoutHandler = () => {
     localStorage.removeItem("user");
     navigate("/");
-    window.location.reload(); // ensures clean state
+    window.location.reload();
   };
 
   /* ================= FETCH NOTIFICATIONS ================= */
   useEffect(() => {
-    if (!user) return;
+    if (!user?.id) return;
 
-    fetch(`http://localhost:8080/api/notifications/user/${user.id}`)
-      .then((res) => res.json())
-      .then(setNotifications)
+    api
+      .get(`/notifications/user/${user.id}`)
+      .then((res) => setNotifications(res.data))
       .catch(() => {});
   }, [user]);
 
@@ -58,12 +59,7 @@ export default function PatientHeader({ user }) {
   return (
     <header className="patient-header">
       {/* LOGO */}
-      <div
-        className="logo"
-        onClick={() => navigate(getDashboardRoute())}
-      >
-        
-      </div>
+      <div className="logo" onClick={() => navigate(getDashboardRoute())} />
 
       <div className="header-right">
         {/* NOTIFICATIONS */}

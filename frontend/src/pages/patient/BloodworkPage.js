@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PatientHeader from "../../components/PatientHeader";
 import PatientSidebar from "../../components/PatientSidebar";
+import api from "../../api";
 import "../../style.css";
 
 export default function BloodworkPage() {
@@ -11,44 +12,38 @@ export default function BloodworkPage() {
     const u = JSON.parse(localStorage.getItem("user"));
     setUser(u);
 
-    fetch(`http://localhost:8080/api/bloodworks/user/${u.id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        
-        const clean = data.filter((b) => b.user !== null);
+    if (!u?.id) return;
+
+    api.get(`/bloodworks/user/${u.id}`)
+      .then(res => {
+        const clean = res.data.filter(b => b.user !== null);
         setBloodwork(clean);
       })
-      .catch((err) => console.error("Failed to load bloodwork:", err));
+      .catch(err => console.error("Failed to load bloodwork:", err));
   }, []);
 
   return (
     <div className="patient-layout">
-
-      {/* SIDEBAR */}
       <PatientSidebar />
-
       <div className="content-area">
-
-        {/* HEADER */}
         <PatientHeader user={user} />
 
         <main className="patient-content bloodwork-page">
           <h2 className="bloodwork-title">Bloodwork History</h2>
 
           {bloodwork.length === 0 && (
-            <p style={{ marginTop: "20px", color: "#777" }}>
+            <p style={{ marginTop: 20, color: "#777" }}>
               No bloodwork records found.
             </p>
           )}
 
-          {bloodwork.map((b) => (
+          {bloodwork.map(b => (
             <div key={b.id} className="bloodwork-entry">
-
-              {/* Date */}
-              <strong className="bloodwork-date">Test Date: {b.testDate}</strong>
+              <strong className="bloodwork-date">
+                Test Date: {b.testDate}
+              </strong>
 
               <div className="bloodwork-group">
-
                 <div className="blood-item">
                   <label>Iron: {b.ironLevel}</label>
                   <input type="range" value={b.ironLevel} min="20" max="200" readOnly />
@@ -68,12 +63,10 @@ export default function BloodworkPage() {
                   <label>Hemoglobin: {b.hemoglobinLevel}</label>
                   <input type="range" value={b.hemoglobinLevel} min="5" max="20" readOnly />
                 </div>
-
               </div>
             </div>
           ))}
         </main>
-
       </div>
     </div>
   );

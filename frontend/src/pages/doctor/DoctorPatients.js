@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DoctorSidebar from "../../components/DoctorSidebar";
 import PatientHeader from "../../components/PatientHeader";
+import api from "../../api";
 import "../../style.css";
 
 export default function DoctorPatients() {
@@ -13,12 +14,9 @@ export default function DoctorPatients() {
     const u = JSON.parse(localStorage.getItem("user"));
     setDoctor(u);
 
-    fetch("http://localhost:8080/api/users")
-      .then((res) => res.json())
-      .then((data) => {
-        const onlyPatients = data.filter(u => u.role === "PATIENT");
-        setPatients(onlyPatients);
-      });
+    api.get("/users/role/PATIENT")
+      .then(res => setPatients(res.data))
+      .catch(() => console.error("Failed to load patients"));
   }, []);
 
   return (
@@ -29,7 +27,7 @@ export default function DoctorPatients() {
         <PatientHeader user={doctor} />
 
         <main className="patient-content">
-          <h2 style={{ marginLeft: "30px" }}>Patients</h2>
+          <h2 style={{ marginLeft: "30px" }}>All Patients</h2>
 
           {patients.map(p => (
             <div
@@ -41,7 +39,7 @@ export default function DoctorPatients() {
                 <strong className="patient-name">{p.name}</strong>
               </div>
 
-              <div className="patient-email" title={p.email}>
+              <div className="patient-email">
                 {p.email}
               </div>
             </div>
@@ -52,7 +50,6 @@ export default function DoctorPatients() {
               No patients found.
             </p>
           )}
-
         </main>
       </div>
     </div>

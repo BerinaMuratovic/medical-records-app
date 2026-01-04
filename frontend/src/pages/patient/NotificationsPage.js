@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PatientHeader from "../../components/PatientHeader";
+import api from "../../api";
 
 export default function NotificationsPage() {
   const [user, setUser] = useState(null);
@@ -9,9 +10,10 @@ export default function NotificationsPage() {
     const u = JSON.parse(localStorage.getItem("user"));
     setUser(u);
 
-    fetch(`http://localhost:8080/api/notifications/user/${u.id}`)
-      .then(res => res.json())
-      .then(setNotifications);
+    if (!u?.id) return;
+
+    api.get(`/notifications/user/${u.id}`)
+      .then(res => setNotifications(res.data));
   }, []);
 
   return (
@@ -24,7 +26,10 @@ export default function NotificationsPage() {
         {notifications
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .map(n => (
-            <div key={n.id} className={`medication-item ${!n.readStatus ? "unread" : ""}`}>
+            <div
+              key={n.id}
+              className={`medication-item ${!n.readStatus ? "unread" : ""}`}
+            >
               <strong>{n.message}</strong>
               <span>{new Date(n.createdAt).toLocaleString()}</span>
               <span>Status: {n.readStatus ? "Read" : "Unread"}</span>

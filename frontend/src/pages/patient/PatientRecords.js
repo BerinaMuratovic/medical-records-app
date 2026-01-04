@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
 import PatientHeader from "../../components/PatientHeader";
 import PatientSidebar from "../../components/PatientSidebar";
+import api from "../../api";
 import "../../style.css";
 
 export default function PatientRecords() {
   const [user, setUser] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
   const [diagnoses, setDiagnoses] = useState([]);
-
   const [selectedDiagnosis, setSelectedDiagnosis] = useState(null);
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("user"));
     setUser(u);
 
-    if (!u) return;
+    if (!u?.id) return;
 
-    fetch(`http://localhost:8080/api/prescriptions/patient/${u.id}`)
-      .then(res => res.json())
-      .then(setPrescriptions);
+    api.get(`/prescriptions/patient/${u.id}`)
+      .then(res => setPrescriptions(res.data));
 
-    fetch(`http://localhost:8080/api/diagnoses/patient/${u.id}`)
-      .then(res => res.json())
-      .then(setDiagnoses);
+    api.get(`/diagnoses/patient/${u.id}`)
+      .then(res => setDiagnoses(res.data));
   }, []);
 
   return (
@@ -35,66 +33,50 @@ export default function PatientRecords() {
         <main className="patient-records-page">
           <h2 className="records-title">Medical Records</h2>
 
-          {/* ================= PRESCRIPTIONS ================= */}
+          {/* PRESCRIPTIONS */}
           <div className="record-card">
             <h3>Prescriptions</h3>
 
             {prescriptions.length === 0 ? (
               <p className="empty-message">No prescriptions found.</p>
             ) : (
-              prescriptions.map((p) => (
+              prescriptions.map(p => (
                 <div key={p.id} className="record-item">
                   <div className="record-left">
-                    <strong className="record-name">
-                      {p.medication?.name}
-                    </strong>
-                    <span className="record-detail">
-                      {p.dosage} — {p.frequency}
-                    </span>
+                    <strong>{p.medication?.name}</strong>
+                    <span>{p.dosage} — {p.frequency}</span>
                   </div>
-
                   <div className="record-right">
-                    <span className="record-date">
-                      {p.startDate} → {p.endDate}
-                    </span>
-                    <span className="record-doctor">
-                      Dr. {p.prescribedBy?.name}
-                    </span>
+                    <span>{p.startDate} → {p.endDate}</span>
+                    <span>Dr. {p.prescribedBy?.name}</span>
                   </div>
                 </div>
               ))
             )}
           </div>
 
-          {/* ================= DIAGNOSES ================= */}
+          {/* DIAGNOSES */}
           <div className="record-card">
             <h3>Diagnoses</h3>
 
             {diagnoses.length === 0 ? (
               <p className="empty-message">No diagnoses found.</p>
             ) : (
-              diagnoses.map((d) => (
+              diagnoses.map(d => (
                 <div
                   key={d.id}
                   className="record-item clickable"
                   onClick={() => setSelectedDiagnosis(d)}
                 >
-                  <div className="record-left">
-                    <strong className="record-name">
-                      {d.title}
-                    </strong>
-                    <span className="record-date">
-                      {d.date}
-                    </span>
+                  <div>
+                    <strong>{d.title}</strong>
+                    <span>{d.date}</span>
                   </div>
-
-                  <div className="record-right">
+                  <div>
                     <span className={`severity-badge ${d.severity?.toLowerCase()}`}>
                       {d.severity}
                     </span>
-                    <span className="record-doctor">
-                      Dr. {d.doctor?.name}
-                    </span>
+                    <span>Dr. {d.doctor?.name}</span>
                   </div>
                 </div>
               ))
@@ -103,43 +85,13 @@ export default function PatientRecords() {
         </main>
       </div>
 
-      {/* ================= DIAGNOSIS MODAL ================= */}
       {selectedDiagnosis && (
         <div className="modal-overlay">
           <div className="modal-card large">
-            <h2 className="modal-title">
-              {selectedDiagnosis.title}
-            </h2>
-
-            <p className="modal-subtitle">
-              {selectedDiagnosis.date} • Dr. {selectedDiagnosis.doctor?.name}
-            </p>
-
-            <div className="modal-section">
-              <strong>Severity</strong>
-              <span className={`severity-badge ${selectedDiagnosis.severity?.toLowerCase()}`}>
-                {selectedDiagnosis.severity}
-              </span>
-            </div>
-
-            <div className="modal-section">
-              <strong>Description</strong>
-              <p>{selectedDiagnosis.description}</p>
-            </div>
-
-            {selectedDiagnosis.notes && (
-              <div className="modal-section">
-                <strong>Doctor Notes</strong>
-                <p>{selectedDiagnosis.notes}</p>
-              </div>
-            )}
-
-            <button
-              className="primary-btn full-width"
-              onClick={() => setSelectedDiagnosis(null)}
-            >
-              Close
-            </button>
+            <h2>{selectedDiagnosis.title}</h2>
+            <p>{selectedDiagnosis.date} • Dr. {selectedDiagnosis.doctor?.name}</p>
+            <p>{selectedDiagnosis.description}</p>
+            <button onClick={() => setSelectedDiagnosis(null)}>Close</button>
           </div>
         </div>
       )}

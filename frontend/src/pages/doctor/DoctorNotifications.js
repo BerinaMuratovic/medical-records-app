@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DoctorSidebar from "../../components/DoctorSidebar";
 import PatientHeader from "../../components/PatientHeader";
-import "../../style.css";
+import api from "../../api";
 
 export default function DoctorNotifications() {
   const [doctor, setDoctor] = useState(null);
@@ -10,51 +10,30 @@ export default function DoctorNotifications() {
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("user"));
     setDoctor(u);
-
     if (!u) return;
 
-    fetch(`http://localhost:8080/api/notifications/user/${u.id}`)
-      .then((res) => res.json())
-      .then(setNotifications)
-      .catch(() => alert("Failed to load notifications"));
+    api.get(`/notifications/user/${u.id}`)
+      .then(res => setNotifications(res.data));
   }, []);
 
   return (
     <div className="patient-layout">
       <DoctorSidebar />
-
       <div className="content-area">
         <PatientHeader user={doctor} />
 
         <main className="patient-content">
-          <h2 className="page-title">Notifications</h2>
+          <h2>Notifications</h2>
 
           {notifications.length === 0 ? (
-            <p className="empty-text">No notifications.</p>
+            <p>No notifications.</p>
           ) : (
-            <div className="notification-list">
-              {notifications
-                .sort(
-                  (a, b) =>
-                    new Date(b.createdAt) - new Date(a.createdAt)
-                )
-                .map((n) => (
-                  <div
-                    key={n.id}
-                    className={`notification-card ${
-                      !n.readStatus ? "unread" : ""
-                    }`}
-                  >
-                    <strong>{n.message}</strong>
-                    <span className="notif-time">
-                      {new Date(n.createdAt).toLocaleString()}
-                    </span>
-                    <span className="notif-status">
-                      Status: {n.readStatus ? "Read" : "Unread"}
-                    </span>
-                  </div>
-                ))}
-            </div>
+            notifications.map(n => (
+              <div key={n.id} className="notification-card">
+                <strong>{n.message}</strong>
+                <span>{new Date(n.createdAt).toLocaleString()}</span>
+              </div>
+            ))
           )}
         </main>
       </div>

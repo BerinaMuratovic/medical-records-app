@@ -7,6 +7,7 @@ import AddBloodworkModal from "../../components/AddBloodworkModal";
 import AddDiagnosisModal from "../../components/AddDiagnosisModal";
 import AddPrescriptionModal from "../../components/AddPrescriptionModal";
 
+import api from "../../api";
 import "../../style.css";
 
 export default function DoctorPatientPage() {
@@ -27,9 +28,11 @@ export default function DoctorPatientPage() {
     const loggedDoctor = JSON.parse(localStorage.getItem("user"));
     setDoctor(loggedDoctor);
 
-    fetch(`http://localhost:8080/api/users/${patientId}`)
-      .then((res) => res.json())
-      .then(setPatient)
+    if (!patientId) return;
+
+  
+    api.get(`/users/${patientId}`)
+      .then(res => setPatient(res.data))
       .catch(() => alert("Failed to load patient"));
   }, [patientId]);
 

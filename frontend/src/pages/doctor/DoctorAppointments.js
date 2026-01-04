@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DoctorSidebar from "../../components/DoctorSidebar";
-
-import PatientHeader from "../../components/PatientHeader.js";
+import PatientHeader from "../../components/PatientHeader";
+import api from "../../api";
 
 export default function DoctorAppointments() {
   const [user, setUser] = useState(null);
@@ -11,9 +11,10 @@ export default function DoctorAppointments() {
     const u = JSON.parse(localStorage.getItem("user"));
     setUser(u);
 
-    fetch(`http://localhost:8080/api/appointments/doctor/${u.id}`)
-      .then(res => res.json())
-      .then(setAppointments);
+    if (!u?.id) return;
+
+    api.get(`/appointments/doctor/${u.id}`)
+      .then(res => setAppointments(res.data));
   }, []);
 
   return (
@@ -32,6 +33,8 @@ export default function DoctorAppointments() {
               <span>Status: {a.status}</span>
             </div>
           ))}
+
+          {appointments.length === 0 && <p>No appointments.</p>}
         </main>
       </div>
     </div>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import api from "../api";
 
 export default function AddPrescriptionModal({
   patientId,
   doctorId,
-  onClose
+  onClose,
 }) {
   const [medications, setMedications] = useState([]);
   const [form, setForm] = useState({
@@ -11,25 +12,21 @@ export default function AddPrescriptionModal({
     dosage: "",
     frequency: "",
     startDate: "",
-    endDate: ""
+    endDate: "",
   });
 
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/medications")
-      .then(res => res.json())
-      .then(setMedications);
+    api.get("/medications").then((res) => setMedications(res.data));
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
-  const validate = () => {
-    return Object.values(form).every(v => v !== "");
-  };
+  const validate = () =>
+    Object.values(form).every((v) => v !== "");
 
   const savePrescription = async () => {
     if (!validate()) {
@@ -41,25 +38,18 @@ export default function AddPrescriptionModal({
     setStatus("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/prescriptions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user: { id: patientId },
-          prescribedBy: { id: doctorId },
-          medication: { id: form.medicationId },
-          dosage: form.dosage,
-          frequency: form.frequency,
-          startDate: form.startDate,
-          endDate: form.endDate
-        })
+      await api.post("/prescriptions", {
+        user: { id: patientId },
+        prescribedBy: { id: doctorId },
+        medication: { id: form.medicationId },
+        dosage: form.dosage,
+        frequency: form.frequency,
+        startDate: form.startDate,
+        endDate: form.endDate,
       });
-
-      if (!res.ok) throw new Error();
 
       setStatus("success");
       setTimeout(onClose, 1200);
-
     } catch {
       setStatus("error");
     } finally {
@@ -75,7 +65,7 @@ export default function AddPrescriptionModal({
         <div className="modal-grid">
           <select name="medicationId" onChange={handleChange}>
             <option value="">Select medication</option>
-            {medications.map(m => (
+            {medications.map((m) => (
               <option key={m.id} value={m.id}>{m.name}</option>
             ))}
           </select>
@@ -87,11 +77,10 @@ export default function AddPrescriptionModal({
         </div>
 
         {status === "success" && (
-          <p className="form-success"> Medication prescribed successfully</p>
+          <p className="form-success">Medication prescribed successfully</p>
         )}
-
         {status === "error" && (
-          <p className="form-error"> Please complete all fields</p>
+          <p className="form-error">Please complete all fields</p>
         )}
 
         <div className="modal-actions">

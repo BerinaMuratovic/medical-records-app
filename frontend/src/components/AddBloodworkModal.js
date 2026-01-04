@@ -1,16 +1,13 @@
 import React, { useState } from "react";
+import api from "../api";
 
-export default function AddBloodworkModal({
-  patientId,
-  onClose,
-  onSuccess
-}) {
+export default function AddBloodworkModal({ patientId, onClose, onSuccess }) {
   const [form, setForm] = useState({
     testDate: "",
     ironLevel: "",
     glucoseLevel: "",
     cholesterolLevel: "",
-    hemoglobinLevel: ""
+    hemoglobinLevel: "",
   });
 
   const [status, setStatus] = useState("");
@@ -20,9 +17,8 @@ export default function AddBloodworkModal({
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const validate = () => {
-    return Object.values(form).every(v => v !== "");
-  };
+  const validate = () =>
+    Object.values(form).every((v) => v !== "");
 
   const saveBloodwork = async () => {
     if (!validate()) {
@@ -34,21 +30,14 @@ export default function AddBloodworkModal({
     setStatus("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/bloodworks", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          user: { id: patientId }
-        })
+      await api.post("/bloodworks", {
+        ...form,
+        user: { id: patientId },
       });
 
-      if (!res.ok) throw new Error();
-
       setStatus("success");
-      onSuccess();
+      onSuccess && onSuccess();
       setTimeout(onClose, 1200);
-
     } catch {
       setStatus("error");
     } finally {
@@ -70,15 +59,16 @@ export default function AddBloodworkModal({
         </div>
 
         {status === "success" && (
-          <p className="form-success"> Bloodwork added successfully</p>
+          <p className="form-success">Bloodwork added successfully</p>
         )}
-
         {status === "error" && (
-          <p className="form-error"> Please fill in all fields</p>
+          <p className="form-error">Please fill in all fields</p>
         )}
 
         <div className="modal-actions">
-          <button className="btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn-secondary" onClick={onClose}>
+            Cancel
+          </button>
           <button className="btn-primary" disabled={loading} onClick={saveBloodwork}>
             {loading ? "Saving..." : "Save"}
           </button>
