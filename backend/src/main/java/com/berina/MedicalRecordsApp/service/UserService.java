@@ -3,7 +3,6 @@ package com.berina.MedicalRecordsApp.service;
 import com.berina.MedicalRecordsApp.model.Notification;
 import com.berina.MedicalRecordsApp.model.Role;
 import com.berina.MedicalRecordsApp.model.User;
-import com.berina.MedicalRecordsApp.repository.NotificationRepository;
 import com.berina.MedicalRecordsApp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +19,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private NotificationRepository notificationRepository;
+    private NotificationService notificationService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -45,7 +44,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User saved = userRepository.save(user);
 
-        notifyAdmins("New user created: " + saved.getName() + " (" + saved.getRole() + ")");
+        notifyAdmins(
+                "New user registered: " + saved.getName() + " (" + saved.getRole() + ")"
+        );
+
         return saved;
     }
 
@@ -93,8 +95,9 @@ public class UserService {
             User saved = userRepository.save(existingUser);
 
             if (roleChanged) {
-                notifyAdmins("User role changed: " + saved.getName() +
-                        " → " + saved.getRole());
+                notifyAdmins(
+                        "User role changed: " + saved.getName() + " → " + saved.getRole()
+                );
             }
 
             return saved;
@@ -104,20 +107,17 @@ public class UserService {
     /* ================= DELETE USER ================= */
 
     public void deleteUser(Long id) {
-        Optional<User> userOpt = userRepository.findById(id);
-
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
+        userRepository.findById(id).ifPresent(user -> {
             userRepository.deleteById(id);
-
-            notifyAdmins("User deleted: " + user.getName() + " (" + user.getRole() + ")");
-        }
+            notifyAdmins(
+                    "User deleted: " + user.getName() + " (" + user.getRole() + ")"
+            );
+        });
     }
 
     public List<User> getUsersByRole(Role role) {
         return userRepository.findByRole(role);
     }
-
 
     /* ================= ADMIN NOTIFICATIONS ================= */
 
@@ -134,7 +134,9 @@ public class UserService {
                     false,
                     admin
             );
-            notificationRepository.save(notification);
+
+
+            notificationService.saveNotification(notification);
         }
     }
 }

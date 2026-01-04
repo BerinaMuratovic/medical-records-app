@@ -19,7 +19,6 @@ public class NotificationService {
         this.emailService = emailService;
     }
 
-
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
     }
@@ -32,7 +31,6 @@ public class NotificationService {
         return notificationRepository.findByUser_Id(userId);
     }
 
-
     public Notification saveNotification(Notification notification) {
         if (notification.getCreatedAt() == null) {
             notification.setCreatedAt(LocalDateTime.now());
@@ -40,11 +38,10 @@ public class NotificationService {
 
         Notification saved = notificationRepository.save(notification);
 
-
         if (saved.getUser() != null && saved.getUser().getEmail() != null) {
             emailService.sendEmail(
                     saved.getUser().getEmail(),
-                    "New Notification",
+                    "MediCorp Notification",
                     saved.getMessage()
             );
         }

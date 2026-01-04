@@ -50,7 +50,7 @@ public class AppointmentService {
 
         Appointment saved = appointmentRepository.save(appointment);
 
-        // 🔔 NOTIFY DOCTOR WHEN PATIENT SCHEDULES OR UPDATES APPOINTMENT
+
         if (saved.getDoctor() != null && saved.getPatient() != null) {
             String message = isUpdate
                     ? "Appointment updated by patient: " + saved.getPatient().getName()
