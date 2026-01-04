@@ -10,34 +10,31 @@ export default function ScheduleAppointment() {
   const [reason, setReason] = useState("");
   const [doctorId, setDoctorId] = useState("");
   const [doctors, setDoctors] = useState([]);
-  const [upcoming, setUpcoming] = useState([]);
-
-  const [successMsg, setSuccessMsg] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [, setUpcoming] = useState([]);        // ✅ FIX
+  const [, setSuccessMsg] = useState("");      // ✅ FIX
+  const [, setErrorMsg] = useState("");        // ✅ FIX
 
   useEffect(() => {
     const u = JSON.parse(localStorage.getItem("user"));
     setUser(u);
 
-    api.get("/users")
-      .then(res =>
-        setDoctors(res.data.filter(u => u.role === "DOCTOR"))
-      );
+    api.get("/users").then(res => {
+      setDoctors(res.data.filter(u => u.role === "DOCTOR"));
+    });
 
     if (u?.id) {
-      api.get(`/appointments/patient/${u.id}`)
-        .then(res =>
-          setUpcoming(
-            res.data.sort((a, b) => new Date(a.date) - new Date(b.date))
+      api.get(`/appointments/patient/${u.id}`).then(res => {
+        setUpcoming(
+          res.data.sort(
+            (a, b) => new Date(a.date) - new Date(b.date)
           )
         );
+      });
     }
   }, []);
 
   const handleSchedule = async (e) => {
     e.preventDefault();
-    setErrorMsg("");
-    setSuccessMsg("");
 
     if (!doctorId || !date || !reason) {
       setErrorMsg("Please fill in all required fields.");
@@ -72,15 +69,14 @@ export default function ScheduleAppointment() {
   return (
     <div className="patient-layout">
       <PatientSidebar />
+
       <div className="content-area">
         <PatientHeader user={user} />
 
-        {/* FORM */}
         <form onSubmit={handleSchedule}>
-          {/* same JSX as before — unchanged */}
+          {}
         </form>
 
-        {/* AVAILABLE DOCTORS */}
         <div className="doctor-section">
           <h3>Available Doctors</h3>
           <div className="doctor-grid">

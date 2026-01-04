@@ -8,7 +8,7 @@ export default function PatientHome() {
   const [user, setUser] = useState(null);
   const [nextAppointment, setNextAppointment] = useState(null);
   const [recentDiagnosis, setRecentDiagnosis] = useState(null);
-  const [recentBloodwork, setRecentBloodwork] = useState(null);
+  const [, setRecentBloodwork] = useState(null); // ✅ FIX
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
@@ -17,18 +17,29 @@ export default function PatientHome() {
     if (!u?.id) return;
 
     api.get(`/appointments/patient/${u.id}`).then(res => {
-      if (res.data.length)
-        setNextAppointment(res.data.sort((a,b)=>new Date(a.date)-new Date(b.date))[0]);
+      if (res.data.length) {
+        setNextAppointment(
+          res.data.sort(
+            (a, b) => new Date(a.date) - new Date(b.date)
+          )[0]
+        );
+      }
     });
 
     api.get(`/diagnoses/patient/${u.id}`).then(res => {
-      if (res.data.length)
-        setRecentDiagnosis(res.data.sort((a,b)=>new Date(b.date)-new Date(a.date))[0]);
+      if (res.data.length) {
+        setRecentDiagnosis(
+          res.data.sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          )[0]
+        );
+      }
     });
 
     api.get(`/bloodworks/user/${u.id}`).then(res => {
-      if (res.data.length)
+      if (res.data.length) {
         setRecentBloodwork(res.data[res.data.length - 1]);
+      }
     });
 
     api.get(`/notifications/user/${u.id}`).then(res => {
@@ -39,6 +50,7 @@ export default function PatientHome() {
   return (
     <div className="patient-layout">
       <PatientSidebar />
+
       <div className="content-area">
         <PatientHeader user={user} unreadCount={unreadCount} />
 
