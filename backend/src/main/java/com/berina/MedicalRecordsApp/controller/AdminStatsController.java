@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/api/admin/stats")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AdminStatsController {
 
     private final AdminStatsService adminStatsService;
@@ -23,3 +23,4 @@ public class AdminStatsController {
         return adminStatsService.getDashboardStats(days);
     }
 }
+

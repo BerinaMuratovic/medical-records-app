@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -19,16 +18,19 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping("/test")
     public String testConnection() {
         return "Backend is connected!";
     }
 
-
     @GetMapping
     public List<User> getAll() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable Role role) {
+        return userService.getUsersByRole(role);
     }
 
     @GetMapping("/{id}")
@@ -37,7 +39,6 @@ public class UserController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
@@ -58,7 +59,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(
             @PathVariable Long id,
@@ -69,15 +69,10 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/role/{role}")
-    public List<User> getUsersByRole(@PathVariable Role role) {
-        return userService.getUsersByRole(role);
-    }
-
 }
+
