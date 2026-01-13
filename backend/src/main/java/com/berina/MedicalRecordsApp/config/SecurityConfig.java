@@ -18,26 +18,21 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-
-                .cors(Customizer.withDefaults())
-
+                .cors(Customizer.withDefaults())   // now uses CorsConfigurationSource bean
                 .authorizeHttpRequests(auth -> auth
-
                         .requestMatchers(
                                 "/api/users/register",
                                 "/api/users/login",
                                 "/api/users/test"
                         ).permitAll()
-
                         .anyRequest().permitAll()
                 )
-
                 .formLogin(form -> form.disable())
-
                 .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

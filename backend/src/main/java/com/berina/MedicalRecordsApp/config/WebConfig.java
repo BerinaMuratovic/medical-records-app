@@ -14,7 +14,7 @@ public class WebConfig {
 
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")   
+                registry.addMapping("/api/**")
                         .allowedOriginPatterns(
                                 "http://localhost:3000",
                                 "https://*.netlify.app"
@@ -26,3 +26,4 @@ public class WebConfig {
         };
     }
 }
+
