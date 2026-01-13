@@ -11,15 +11,15 @@ public class WebConfig {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")   // allow for all endpoints
+                registry.addMapping("/api/**")
                         .allowedOriginPatterns(
                                 "http://localhost:3000",
-                                "https://*.netlify.app"
+                                "https://*.netlify.app",
+                                "https://medical-records-app.netlify.app" // add your exact domain
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
