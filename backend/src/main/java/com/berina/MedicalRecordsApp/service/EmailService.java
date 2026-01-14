@@ -19,38 +19,30 @@ public class EmailService {
     private String fromEmail;
 
     public void sendEmail(String to, String subject, String contentText) {
+        System.out.println("=== Sending email to: " + to);
 
-        System.out.println("📨 Attempting to send email...");
-        System.out.println("From: " + fromEmail);
-        System.out.println("To: " + to);
+        Email from = new Email(fromEmail);
+        Email toEmail = new Email(to);
+        Content content = new Content("text/plain", contentText);
+        Mail mail = new Mail(from, subject, toEmail, content);
 
-        if (sendGridApiKey == null || sendGridApiKey.isBlank()) {
-            System.out.println("❌ SENDGRID_API_KEY is missing!");
-            return;
-        }
+        SendGrid sg = new SendGrid(sendGridApiKey);
+        Request request = new Request();
 
         try {
-            Email from = new Email(fromEmail);
-            Email toEmail = new Email(to);
-            Content content = new Content("text/plain", contentText);
-            Mail mail = new Mail(from, subject, toEmail, content);
-
-            SendGrid sg = new SendGrid(sendGridApiKey);
-            Request request = new Request();
-
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
 
             Response response = sg.api(request);
 
-            System.out.println("📩 SendGrid status: " + response.getStatusCode());
-            System.out.println("📩 SendGrid body: " + response.getBody());
-            System.out.println("📩 SendGrid headers: " + response.getHeaders());
+            System.out.println("SendGrid status: " + response.getStatusCode());
+            System.out.println("SendGrid body: " + response.getBody());
 
         } catch (Exception e) {
-            System.out.println("❌ SendGrid exception:");
+            System.out.println("SendGrid ERROR:");
             e.printStackTrace();
         }
     }
+
 }
