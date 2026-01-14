@@ -20,9 +20,11 @@ public class BloodworkService {
     private final NotificationService notificationService;
     private final UserRepository userRepository;
 
-    public BloodworkService(BloodworkRepository bloodworkRepository,
-                            NotificationService notificationService,
-                            UserRepository userRepository) {
+    public BloodworkService(
+            BloodworkRepository bloodworkRepository,
+            NotificationService notificationService,
+            UserRepository userRepository
+    ) {
         this.bloodworkRepository = bloodworkRepository;
         this.notificationService = notificationService;
         this.userRepository = userRepository;
@@ -42,49 +44,38 @@ public class BloodworkService {
 
     public Bloodwork saveBloodwork(Bloodwork bloodwork) {
 
-        System.out.println("=== BLOODWORK SAVE TRIGGERED ===");
+        boolean isUpdate = bloodwork.getId() != null &&
+                bloodworkRepository.existsById(bloodwork.getId());
 
-        if (bloodwork.getUser() == null || bloodwork.getUser().getId() == null) {
-            throw new RuntimeException("Bloodwork must have a user!");
+        
+        if (bloodwork.getUser() != null && bloodwork.getUser().getId() != null) {
+            userRepository.findById(bloodwork.getUser().getId())
+                    .ifPresent(bloodwork::setUser);
         }
-
-
-        User user = userRepository.findById(bloodwork.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-
-        bloodwork.setUser(user);
-
-        boolean isUpdate = (bloodwork.getId() != null &&
-                bloodworkRepository.existsById(bloodwork.getId()));
 
         Bloodwork saved = bloodworkRepository.save(bloodwork);
 
-        System.out.println("Bloodwork saved.");
-        System.out.println("User attached: " + saved.getUser().getEmail());
+        if (saved.getUser() != null) {
 
-        String message = isUpdate
-                ? "Bloodwork updated (" + saved.getTestDate() + ")"
-                : "New bloodwork results available (" + saved.getTestDate() + ")";
+            String message = isUpdate
+                    ? "Bloodwork updated (" + saved.getTestDate() + ")"
+                    : "New bloodwork results available (" + saved.getTestDate() + ")";
 
-        Notification notification = new Notification(
-                message,
-                LocalDateTime.now(),
-                false,
-                saved.getUser()
-        );
+            Notification notification = new Notification(
+                    message,
+                    LocalDateTime.now(),
+                    false,
+                    saved.getUser()
+            );
 
-        System.out.println("Creating notification...");
-        notificationService.saveNotification(notification);
+            notificationService.saveNotification(notification);
+        }
 
         return saved;
     }
 
     public void deleteBloodwork(Long id) {
-        Optional<Bloodwork> existing = bloodworkRepository.findById(id);
-
-        if (existing.isPresent()) {
-            Bloodwork bloodwork = existing.get();
+        bloodworkRepository.findById(id).ifPresent(bloodwork -> {
 
             if (bloodwork.getUser() != null) {
                 Notification notification = new Notification(
@@ -97,6 +88,6 @@ public class BloodworkService {
             }
 
             bloodworkRepository.deleteById(id);
-        }
+        });
     }
 }
