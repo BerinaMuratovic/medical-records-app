@@ -32,19 +32,32 @@ public class NotificationService {
     }
 
     public Notification saveNotification(Notification notification) {
+
+        System.out.println("====================================");
+        System.out.println("=== NOTIFICATION SAVE TRIGGERED ===");
+
         if (notification.getCreatedAt() == null) {
             notification.setCreatedAt(LocalDateTime.now());
         }
 
         Notification saved = notificationRepository.save(notification);
 
+        System.out.println("Notification saved.");
+        System.out.println("User attached: " +
+                (saved.getUser() != null ? saved.getUser().getEmail() : "NULL USER"));
+
         if (saved.getUser() != null && saved.getUser().getEmail() != null) {
+            System.out.println("Calling EmailService...");
             emailService.sendEmail(
                     saved.getUser().getEmail(),
                     "MediCorp Notification",
                     saved.getMessage()
             );
+        } else {
+            System.out.println("EMAIL NOT SENT — user or email is null");
         }
+
+        System.out.println("====================================");
 
         return saved;
     }
