@@ -5,7 +5,6 @@ import com.berina.MedicalRecordsApp.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class NotificationService {
@@ -19,21 +18,8 @@ public class NotificationService {
         this.emailService = emailService;
     }
 
-    public List<Notification> getAllNotifications() {
-        return notificationRepository.findAll();
-    }
-
-    public Notification getNotificationById(Long id) {
-        return notificationRepository.findById(id).orElse(null);
-    }
-
-    public List<Notification> getNotificationsByUserId(Long userId) {
-        return notificationRepository.findByUser_Id(userId);
-    }
-
     public Notification saveNotification(Notification notification) {
 
-        System.out.println("====================================");
         System.out.println("=== NOTIFICATION SAVE TRIGGERED ===");
 
         if (notification.getCreatedAt() == null) {
@@ -57,12 +43,6 @@ public class NotificationService {
             System.out.println("EMAIL NOT SENT — user or email is null");
         }
 
-        System.out.println("====================================");
-
         return saved;
-    }
-
-    public void deleteNotification(Long id) {
-        notificationRepository.deleteById(id);
     }
 }
