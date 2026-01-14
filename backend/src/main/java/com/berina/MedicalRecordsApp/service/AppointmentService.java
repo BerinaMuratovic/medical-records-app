@@ -3,6 +3,7 @@ package com.berina.MedicalRecordsApp.service;
 import com.berina.MedicalRecordsApp.model.Appointment;
 import com.berina.MedicalRecordsApp.model.Notification;
 import com.berina.MedicalRecordsApp.repository.AppointmentRepository;
+import com.berina.MedicalRecordsApp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,16 +15,17 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final NotificationService notificationService;
+    private final UserRepository userRepository;
 
     public AppointmentService(
             AppointmentRepository appointmentRepository,
-            NotificationService notificationService
+            NotificationService notificationService,
+            UserRepository userRepository
     ) {
         this.appointmentRepository = appointmentRepository;
         this.notificationService = notificationService;
+        this.userRepository = userRepository;
     }
-
-    /* ================= GET ================= */
 
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
@@ -41,17 +43,30 @@ public class AppointmentService {
         return appointmentRepository.findByDoctor_Id(doctorId);
     }
 
-
-
     public Appointment saveAppointment(Appointment appointment) {
+
         boolean isUpdate =
                 appointment.getId() != null &&
                         appointmentRepository.existsById(appointment.getId());
 
+
+        if (appointment.getPatient() != null && appointment.getPatient().getId() != null) {
+            appointment.setPatient(
+                    userRepository.findById(appointment.getPatient().getId()).orElse(null)
+            );
+        }
+
+
+        if (appointment.getDoctor() != null && appointment.getDoctor().getId() != null) {
+            appointment.setDoctor(
+                    userRepository.findById(appointment.getDoctor().getId()).orElse(null)
+            );
+        }
+
         Appointment saved = appointmentRepository.save(appointment);
 
+        if (saved.getDoctor() != null && saved.getDoctor().getEmail() != null) {
 
-        if (saved.getDoctor() != null && saved.getPatient() != null) {
             String message = isUpdate
                     ? "Appointment updated by patient: " + saved.getPatient().getName()
                     : "New appointment scheduled by patient: " + saved.getPatient().getName();
@@ -64,21 +79,18 @@ public class AppointmentService {
             );
 
             notificationService.saveNotification(notification);
+        } else {
+            System.out.println("❌ Appointment email skipped — doctor or email is null");
         }
 
         return saved;
     }
 
-    /* ================= DELETE ================= */
-
     public void deleteAppointment(Long id) {
-        Optional<Appointment> existing = appointmentRepository.findById(id);
+        appointmentRepository.findById(id).ifPresent(appointment -> {
 
-        if (existing.isPresent()) {
-            Appointment appointment = existing.get();
+            if (appointment.getDoctor() != null && appointment.getDoctor().getEmail() != null) {
 
-
-            if (appointment.getDoctor() != null && appointment.getPatient() != null) {
                 Notification notification = new Notification(
                         "Appointment cancelled by patient: " + appointment.getPatient().getName(),
                         LocalDateTime.now(),
@@ -90,6 +102,6 @@ public class AppointmentService {
             }
 
             appointmentRepository.deleteById(id);
-        }
+        });
     }
 }
