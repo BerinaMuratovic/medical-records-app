@@ -2,6 +2,7 @@ package com.berina.MedicalRecordsApp.service;
 
 import com.berina.MedicalRecordsApp.model.Diagnosis;
 import com.berina.MedicalRecordsApp.model.Notification;
+import com.berina.MedicalRecordsApp.model.User;
 import com.berina.MedicalRecordsApp.repository.DiagnosisRepository;
 import com.berina.MedicalRecordsApp.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -27,17 +28,36 @@ public class DiagnosisService {
         this.userRepository = userRepository;
     }
 
+    /* ================= GET ================= */
+
+    public List<Diagnosis> getAllDiagnoses() {
+        return diagnosisRepository.findAll();
+    }
+
+    public Optional<Diagnosis> getDiagnosisById(Long id) {
+        return diagnosisRepository.findById(id);
+    }
+
+    public List<Diagnosis> getDiagnosesByPatientId(Long patientId) {
+        return diagnosisRepository.findByPatient_Id(patientId);
+    }
+
+    public List<Diagnosis> getDiagnosesByDoctorId(Long doctorId) {
+        return diagnosisRepository.findByDoctor_Id(doctorId);
+    }
+
+    /* ================= SAVE / UPDATE ================= */
+
     public Diagnosis saveDiagnosis(Diagnosis diagnosis) {
 
         boolean isUpdate =
                 diagnosis.getId() != null &&
                         diagnosisRepository.existsById(diagnosis.getId());
 
-
+        // Load full patient entity
         if (diagnosis.getPatient() != null && diagnosis.getPatient().getId() != null) {
-            diagnosis.setPatient(
-                    userRepository.findById(diagnosis.getPatient().getId()).orElse(null)
-            );
+            User patient = userRepository.findById(diagnosis.getPatient().getId()).orElse(null);
+            diagnosis.setPatient(patient);
         }
 
         Diagnosis saved = diagnosisRepository.save(diagnosis);
@@ -62,6 +82,8 @@ public class DiagnosisService {
 
         return saved;
     }
+
+    /* ================= DELETE ================= */
 
     public void deleteDiagnosis(Long id) {
         diagnosisRepository.findById(id).ifPresent(diagnosis -> {
