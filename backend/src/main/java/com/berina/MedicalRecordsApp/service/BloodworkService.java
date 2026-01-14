@@ -47,7 +47,7 @@ public class BloodworkService {
         boolean isUpdate = bloodwork.getId() != null &&
                 bloodworkRepository.existsById(bloodwork.getId());
 
-        
+
         if (bloodwork.getUser() != null && bloodwork.getUser().getId() != null) {
             userRepository.findById(bloodwork.getUser().getId())
                     .ifPresent(bloodwork::setUser);
