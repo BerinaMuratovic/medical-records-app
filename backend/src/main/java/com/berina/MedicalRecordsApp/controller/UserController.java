@@ -19,14 +19,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    /* ================= TEST ================= */
 
     @GetMapping("/test")
     public String testConnection() {
         return "Backend is connected!";
     }
 
-    /* ================= GET ================= */
 
     @GetMapping
     public List<User> getAll() {
@@ -40,13 +38,11 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    
     @GetMapping("/role/{role}")
     public List<User> getUsersByRole(@PathVariable Role role) {
         return userService.getUsersByRole(role);
     }
 
-    /* ================= AUTH ================= */
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
@@ -67,7 +63,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    /* ================= UPDATE ================= */
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(
@@ -79,7 +74,6 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /* ================= DELETE ================= */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

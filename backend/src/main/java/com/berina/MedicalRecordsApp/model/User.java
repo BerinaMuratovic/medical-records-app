@@ -50,7 +50,6 @@ public class User {
         }
     }
 
-    /* ===== GETTERS & SETTERS ===== */
 
     public Long getId() { return id; }
 

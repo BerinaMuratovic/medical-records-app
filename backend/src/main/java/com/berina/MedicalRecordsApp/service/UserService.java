@@ -24,7 +24,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /* ================= GETTERS ================= */
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -38,7 +37,6 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    /* ================= REGISTER USER ================= */
 
     public User registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -51,7 +49,6 @@ public class UserService {
         return saved;
     }
 
-    /* ================= LOGIN ================= */
 
     public User loginUser(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
@@ -65,7 +62,6 @@ public class UserService {
         return null;
     }
 
-    /* ================= UPDATE USER ================= */
 
     public Optional<User> updateUser(Long id, User updates) {
         return userRepository.findById(id).map(existingUser -> {
@@ -104,7 +100,6 @@ public class UserService {
         });
     }
 
-    /* ================= DELETE USER ================= */
 
     public void deleteUser(Long id) {
         userRepository.findById(id).ifPresent(user -> {
@@ -119,7 +114,6 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
-    /* ================= ADMIN NOTIFICATIONS ================= */
 
     private void notifyAdmins(String message) {
         List<User> admins = userRepository.findAll()

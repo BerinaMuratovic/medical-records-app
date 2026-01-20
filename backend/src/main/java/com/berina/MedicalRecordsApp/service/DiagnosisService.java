@@ -46,7 +46,6 @@ public class DiagnosisService {
         return diagnosisRepository.findByDoctor_Id(doctorId);
     }
 
-    /* ================= SAVE / UPDATE ================= */
 
     public Diagnosis saveDiagnosis(Diagnosis diagnosis) {
 
@@ -83,7 +82,6 @@ public class DiagnosisService {
         return saved;
     }
 
-    /* ================= DELETE ================= */
 
     public void deleteDiagnosis(Long id) {
         diagnosisRepository.findById(id).ifPresent(diagnosis -> {

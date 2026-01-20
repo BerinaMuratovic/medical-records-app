@@ -19,7 +19,6 @@ public class NotificationService {
         this.emailService = emailService;
     }
 
-    // ================= GET =================
 
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
@@ -33,7 +32,6 @@ public class NotificationService {
         return notificationRepository.findByUser_Id(userId);
     }
 
-    // ================= SAVE =================
 
     public Notification saveNotification(Notification notification) {
 
@@ -63,7 +61,6 @@ public class NotificationService {
         return saved;
     }
 
-    // ================= DELETE =================
 
     public void deleteNotification(Long id) {
         notificationRepository.deleteById(id);
