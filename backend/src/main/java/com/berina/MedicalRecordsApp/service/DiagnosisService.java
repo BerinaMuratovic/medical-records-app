@@ -28,7 +28,7 @@ public class DiagnosisService {
         this.userRepository = userRepository;
     }
 
-    /* ================= GET ================= */
+
 
     public List<Diagnosis> getAllDiagnoses() {
         return diagnosisRepository.findAll();
@@ -53,7 +53,7 @@ public class DiagnosisService {
                 diagnosis.getId() != null &&
                         diagnosisRepository.existsById(diagnosis.getId());
 
-        // Load full patient entity
+
         if (diagnosis.getPatient() != null && diagnosis.getPatient().getId() != null) {
             User patient = userRepository.findById(diagnosis.getPatient().getId()).orElse(null);
             diagnosis.setPatient(patient);
