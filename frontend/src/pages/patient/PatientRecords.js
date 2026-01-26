@@ -33,7 +33,7 @@ export default function PatientRecords() {
         <main className="patient-records-page">
           <h2 className="records-title">📁 Medical Records</h2>
 
-          {/* ================= PRESCRIPTIONS ================= */}
+          {/*  PRESCRIPTIONS  */}
           <div className="record-card">
             <h3>💊 Prescriptions</h3>
 
@@ -64,7 +64,7 @@ export default function PatientRecords() {
             )}
           </div>
 
-          {/* ================= DIAGNOSES ================= */}
+          {/*  DIAGNOSES  */}
           <div className="record-card">
             <h3>🩺 Diagnoses</h3>
 
@@ -99,7 +99,7 @@ export default function PatientRecords() {
         </main>
       </div>
 
-      {/* ================= DIAGNOSIS MODAL ================= */}
+      {/* DIAGNOSIS MODAL  */}
       {selectedDiagnosis && (
         <div className="modal-overlay">
           <div className="modal-card large">

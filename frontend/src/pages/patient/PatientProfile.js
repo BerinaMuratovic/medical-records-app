@@ -73,7 +73,7 @@ export default function PatientProfile() {
         </main>
       </div>
 
-      {/* ================= EDIT MODAL ================= */}
+      {/*  EDIT MODAL  */}
       {editOpen && (
         <div className="edit-modal">
           <div className="edit-modal-content">

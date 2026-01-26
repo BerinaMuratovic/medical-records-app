@@ -54,9 +54,9 @@ export default function AddDiagnosisModal({
 
         <label>Severity</label>
         <select value={severity} onChange={(e) => setSeverity(e.target.value)}>
-          <option value="MILD">Mild</option>
-          <option value="MODERATE">Moderate</option>
-          <option value="SEVERE">Severe</option>
+          <option value="LOW">Mild</option>
+          <option value="MILD">Moderate</option>
+          <option value="HIGH">Severe</option>
         </select>
 
         <label>Description</label>

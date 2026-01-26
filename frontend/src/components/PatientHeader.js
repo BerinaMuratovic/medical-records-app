@@ -9,7 +9,6 @@ export default function PatientHeader({ user }) {
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
 
-  /* ================= ROUTES ================= */
   const getDashboardRoute = () => {
     if (!user) return "/";
     if (user.role === "ADMIN") return "/admin-dashboard";
@@ -24,14 +23,13 @@ export default function PatientHeader({ user }) {
     return "/patient-profile";
   };
 
-  /* ================= LOGOUT ================= */
   const logoutHandler = () => {
     localStorage.removeItem("user");
     navigate("/");
     window.location.reload();
   };
 
-  /* ================= FETCH NOTIFICATIONS ================= */
+
   useEffect(() => {
     if (!user?.id) return;
 
@@ -41,7 +39,7 @@ export default function PatientHeader({ user }) {
       .catch(() => {});
   }, [user]);
 
-  /* ================= CLICK OUTSIDE ================= */
+ 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -58,11 +56,11 @@ export default function PatientHeader({ user }) {
 
   return (
     <header className="patient-header">
-      {/* LOGO */}
+      {}
       <div className="logo" onClick={() => navigate(getDashboardRoute())} />
 
       <div className="header-right">
-        {/* NOTIFICATIONS */}
+        {}
         <div className="notif-wrapper" ref={dropdownRef}>
           <button
             className="notif-btn"
@@ -109,7 +107,7 @@ export default function PatientHeader({ user }) {
           )}
         </div>
 
-        {/* PROFILE */}
+        {}
         <div
           className="user-box"
           onClick={() => navigate(getProfileRoute())}
@@ -125,7 +123,7 @@ export default function PatientHeader({ user }) {
           />
         </div>
 
-        {/* LOGOUT */}
+        {}
         <button className="logout-btn" onClick={logoutHandler}>
           Logout
         </button>

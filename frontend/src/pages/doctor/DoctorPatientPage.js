@@ -22,7 +22,7 @@ export default function DoctorPatientPage() {
   const [showDiagnosisModal, setShowDiagnosisModal] = useState(false);
   const [showPrescriptionModal, setShowPrescriptionModal] = useState(false);
 
-  /* ================= LOAD DATA ================= */
+  /* LOAD DATA */
 
   useEffect(() => {
     const loggedDoctor = JSON.parse(localStorage.getItem("user"));
@@ -49,7 +49,7 @@ export default function DoctorPatientPage() {
 
         <main className="patient-content">
 
-          {/* ===== BACK BUTTON ===== */}
+          {/* BACK BUTTON*/}
           <button
             onClick={() => navigate("/doctor/patients")}
             className="back-btn"
@@ -57,7 +57,7 @@ export default function DoctorPatientPage() {
             ← Back to Patients
           </button>
 
-          {/* ===== PATIENT SUMMARY ===== */}
+          {/*  PATIENT SUMMARY */}
           <div className="patient-summary-card">
             <div className="patient-summary-main">
 
@@ -76,7 +76,7 @@ export default function DoctorPatientPage() {
             </div>
           </div>
 
-          {/* ===== TABS ===== */}
+          {/* TABS  */}
           <div className="doctor-tabs">
             <button
               className={activeTab === "bloodwork" ? "tab active" : "tab"}
@@ -100,10 +100,10 @@ export default function DoctorPatientPage() {
             </button>
           </div>
 
-          {/* ===== TAB CONTENT ===== */}
+          {/* TAB CONTENT  */}
           <div className="tab-content">
 
-            {/* ---- BLOODWORK ---- */}
+            {/*  BLOODWORK  */}
             {activeTab === "bloodwork" && (
               <div className="tab-panel">
                 <h3>Bloodwork Records</h3>
@@ -120,7 +120,7 @@ export default function DoctorPatientPage() {
               </div>
             )}
 
-            {/* ---- DIAGNOSIS ---- */}
+            {/*  DIAGNOSIS  */}
             {activeTab === "diagnosis" && (
               <div className="tab-panel">
                 <h3>Diagnoses</h3>
@@ -137,7 +137,7 @@ export default function DoctorPatientPage() {
               </div>
             )}
 
-            {/* ---- MEDICATION ---- */}
+            {/* MEDICATION  */}
             {activeTab === "medication" && (
               <div className="tab-panel">
                 <h3>Medications</h3>
@@ -158,7 +158,7 @@ export default function DoctorPatientPage() {
         </main>
       </div>
 
-      {/* ===== MODALS ===== */}
+      {/*  MODALS */}
       {showBloodworkModal && (
         <AddBloodworkModal
           patientId={patient.id}

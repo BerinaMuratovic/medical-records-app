@@ -1,4 +1,4 @@
-/* ====LOGIN / REGISTER===== */
+/* LOGIN / REGISTER */
 html, body {
   margin: 0 !important;
   padding: 0 !important;
@@ -139,7 +139,7 @@ html, body {
 }
 
 
-/* ====HEADER + NOTIFICATIONS====== */
+/* HEADER + NOTIFICATIONS */
 .patient-header {
   display: flex;
   justify-content: space-between;
@@ -284,7 +284,7 @@ html, body {
   transform: scale(1.08);
 }
 
-/* ====SIDEBAR===== */
+/* SIDEBAR*/
 .sidebar {
   position: fixed;
   top: 0;
@@ -331,7 +331,7 @@ html, body {
   background-color: #202c5e;
 }
 
-/* ====LAYOUT====== */
+/* LAYOUT */
 .patient-layout {
   display: flex;
   background-color: #f5f7fb;
@@ -344,7 +344,7 @@ html, body {
   padding-bottom: 40px;
 }
 
-/* ====DASHBOARD===== */
+/* DASHBOARD */
 .dashboard-main {
   padding: 2rem 2.5rem;
   margin-top: -30px;
@@ -403,7 +403,7 @@ html, body {
 }
 
 
-/* ====APPOINTMENT PAGE===== */
+/* APPOINTMENT PAGE */
 
 
 .content-area {
@@ -504,7 +504,7 @@ html, body {
   background-color: #616ca1;
 }
 
-/* =====AVAILABLE DOCTORS===== */
+/* AVAILABLE DOCTORS */
 
 .doctor-section {
   margin-left: 110px;
@@ -547,7 +547,7 @@ html, body {
   color: #6f7ca2;
 }
 
-/* ====UPCOMING APPOINTMENTS==== */
+/* UPCOMING APPOINTMENTS */
 
 .upcoming-section {
   margin-left: 110px;
@@ -577,7 +577,7 @@ html, body {
   box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
 }
 
-/* ===== MEDICAL RECORDS PAGE ===== */ 
+/*  MEDICAL RECORDS PAGE  */ 
 .patient-records-page {
    margin-left: 30px;
    margin-top: -110px;
@@ -636,7 +636,7 @@ html, body {
       .record-detail, .record-date, .record-doctor { font-size: 14px; color: #6b6e8a; }
 
 
-/* ===== BLOODWORK PAGE ===== */
+/*  BLOODWORK PAGE  */
 
 .bloodwork-page {
   padding-top: -35px;
@@ -801,7 +801,7 @@ html, body {
 .save-btn:hover { background: #616ca1; }
 
 
-/* ===== DOCTOR PATIENT LIST ===== */
+/* DOCTOR PATIENT LIST  */
 
 .patient-row {
   display: flex;
@@ -823,7 +823,7 @@ html, body {
 
 .patient-info {
   flex: 1;
-  min-width: 0; /* IMPORTANT for truncation */
+  min-width: 0; 
 }
 
 .patient-name {
@@ -844,7 +844,7 @@ html, body {
 
 
 
-/* ===== DOCTOR PATIENT PAGE ===== */
+/*  DOCTOR PATIENT PAGE  */
 
 .patient-detail-card {
   display: flex;
@@ -878,7 +878,7 @@ html, body {
   font-size: 13px;
 }
 
-/* ===== TABS ===== */
+/*  TABS  */
 
 .doctor-tabs {
   display: flex;
@@ -907,7 +907,7 @@ html, body {
   color: white;
 }
 
-/* ===== TAB CONTENT ===== */
+/*  TAB CONTENT  */
 
 .tab-content {
   margin-left: 30px;
@@ -944,7 +944,7 @@ html, body {
 .primary-btn:hover {
   background: #616ca1;
 }
-/* ===== BACK TO PATIENTS BUTTON ===== */
+/*  BACK TO PATIENTS BUTTON  */
 
 .back-btn {
   display: inline-flex;
@@ -976,7 +976,7 @@ html, body {
   content: "";
   font-size: 16px;
 }
-/* ===== PATIENT SUMMARY HEADER (COMPACT) ===== */
+/*  PATIENT SUMMARY HEADER (COMPACT)  */
 
 .patient-summary-card {
   background: white;
@@ -1004,7 +1004,7 @@ html, body {
 }
 
 .patient-name-big {
-  font-size: 22px;        /* ✅ smaller, tighter */
+  font-size: 22px;        
   font-weight: 600;
   color: #50597f;
   margin: 0;
@@ -1064,7 +1064,7 @@ html, body {
   gap: 10px;
 }
 
-/* ===== MODAL OVERLAY ===== */
+/* MODAL OVERLAY  */
 
 .modal-backdrop {
   position: fixed;
@@ -1076,7 +1076,7 @@ html, body {
   z-index: 999;
 }
 
-/* ===== MODAL CARD ===== */
+/*  MODAL CARD  */
 
 .modal-card {
   background: #ffffff;
@@ -1092,7 +1092,7 @@ html, body {
   color: #50597f;
 }
 
-/* ===== INPUT GRID ===== */
+/*  INPUT GRID  */
 
 .modal-grid {
   display: grid;
@@ -1112,7 +1112,7 @@ html, body {
   border-color: #5a6bf5;
 }
 
-/* ===== FEEDBACK TEXT ===== */
+/* FEEDBACK TEXT  */
 
 .form-success {
   margin-top: 10px;
@@ -1126,7 +1126,7 @@ html, body {
   font-size: 14px;
 }
 
-/* ===== ACTION BUTTONS ===== */
+/*  ACTION BUTTONS  */
 
 .modal-actions {
   margin-top: 18px;
@@ -1309,7 +1309,7 @@ html, body {
   cursor: not-allowed;
 }
 
-/* ================= FEEDBACK MESSAGES ================= */
+/*  FEEDBACK MESSAGES  */
 
 .message-box {
   padding: 14px 18px;
@@ -1331,7 +1331,7 @@ html, body {
   border: 1px solid #f5c6cb;
 }
 
-/* ===== CONFIRM DELETE MODAL ===== */
+/*  CONFIRM DELETE MODAL  */
 
 .modal-overlay {
   position: fixed;
@@ -1377,7 +1377,7 @@ html, body {
   background: white;
 }
 
-/* ===== ADMIN SIDEBAR ===== */
+/* ADMIN SIDEBAR  */
 
 .sidebar {
   width: 255x;
@@ -1505,7 +1505,7 @@ html, body {
   margin-top: 1.2rem;
 }
 
-/* ===== ADD DIAGNOSIS MODAL ===== */
+/*  ADD DIAGNOSIS MODAL*/
 
 .diagnosis-modal {
   width: 520px;
@@ -1563,7 +1563,7 @@ html, body {
   cursor: pointer;
 }
 
-/* ===== ADMIN STATS ===== */
+/*  ADMIN STATS  */
 
 .summary-card.highlight {
   background: linear-gradient(135deg, #f6f8fc, #eef2ff);
@@ -1873,7 +1873,7 @@ html, body {
   color: #166534;
 }
 
-/* ===== ADMIN USERS TABLE ===== */
+/* ADMIN USERS TABLE*/
 
 .admin-users-table {
   padding: 0;

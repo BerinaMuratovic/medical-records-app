@@ -88,7 +88,7 @@ export default function AdminProfile() {
         </main>
       </div>
 
-      {/* ===== EDIT MODAL ===== */}
+      {/* EDIT MODAL */}
       {editOpen && (
         <div className="edit-modal">
           <div className="edit-modal-content">
